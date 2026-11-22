@@ -25,7 +25,12 @@ header {
   padding: 2rem 1.5rem 1.5rem;
   text-align: center;
   border-bottom: 2px solid var(--neon);
-  background: linear-gradient(180deg, rgba(57, 255, 20, 0.08), transparent);
+  background-color: var(--fundo);
+  background-image:
+    linear-gradient(180deg, rgba(11, 15, 12, 0.5), rgba(11, 15, 12, 0.85)),
+    url("assets/hero.jpg");
+  background-size: cover;
+  background-position: center;
 }
 
 header h1 {
@@ -264,6 +269,11 @@ button:focus-visible {
   min-width: 0;
   padding: 1.25rem;
   background-color: var(--painel);
+  background-image:
+    linear-gradient(rgba(26, 34, 28, 0.94), rgba(26, 34, 28, 0.94)),
+    url("assets/circuito.jpg");
+  background-size: cover;
+  background-position: center;
   border: 1px solid rgba(57, 255, 20, 0.28);
   border-radius: 10px;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
