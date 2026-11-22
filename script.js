@@ -307,7 +307,84 @@ function renderizarPistas() {
   });
 }
 
+function obterInputsDaPalavra(item) {
+  const passoLinha = item.direcao === "vertical" ? 1 : 0;
+  const passoColuna = item.direcao === "horizontal" ? 1 : 0;
+  const inputs = [];
+
+  for (let i = 0; i < item.palavra.length; i++) {
+    const input = obterInput(
+      item.linhaInicial + passoLinha * i,
+      item.colunaInicial + passoColuna * i
+    );
+
+    if (input) {
+      inputs.push(input);
+    }
+  }
+
+  return inputs;
+}
+
+function limparValidacao() {
+  document.querySelectorAll("#tabuleiro input").forEach((input) => {
+    input.classList.remove("certa", "errada");
+  });
+}
+
+function conferir() {
+  limparValidacao();
+
+  let acertos = 0;
+
+  palavras.forEach((item) => {
+    const inputs = obterInputsDaPalavra(item);
+    const digitado = inputs
+      .map((input) => input.value.toUpperCase())
+      .join("");
+    const correta = digitado === item.palavra;
+
+    if (correta) {
+      acertos++;
+
+      inputs.forEach((input) => {
+        input.classList.remove("errada");
+        input.classList.add("certa");
+      });
+    } else {
+      inputs.forEach((input) => {
+        if (!input.classList.contains("certa")) {
+          input.classList.add("errada");
+        }
+      });
+    }
+  });
+
+  document.getElementById("contador").textContent =
+    `${acertos} de ${palavras.length} palavras`;
+
+  document.getElementById("mensagem-vitoria").textContent =
+    acertos === palavras.length
+      ? "SISTEMA SINCRONIZADO! Controle Mestre do Omnitrix desbloqueado."
+      : "";
+}
+
+function reiniciar() {
+  document.querySelectorAll("#tabuleiro input").forEach((input) => {
+    input.value = "";
+    input.classList.remove("certa", "errada");
+  });
+
+  document.getElementById("contador").textContent =
+    `0 de ${palavras.length} palavras`;
+
+  document.getElementById("mensagem-vitoria").textContent = "";
+}
+
 document.addEventListener("DOMContentLoaded", () => {
   renderizarTabuleiro();
   renderizarPistas();
+
+  document.getElementById("btn-conferir").addEventListener("click", conferir);
+  document.getElementById("btn-reiniciar").addEventListener("click", reiniciar);
 });
