@@ -378,16 +378,27 @@ button:focus-visible {
   text-transform: none;
   letter-spacing: 0;
   background-color: transparent;
+  background-image: none;
+  box-shadow: none;
 }
 
-.opcoes button.acertou {
+.opcoes button:hover {
+  background-image: none;
+  background-color: rgba(57, 255, 20, 0.12);
+}
+
+.opcoes button.acertou,
+.opcoes button.acertou:hover {
   color: #000000;
   background-color: var(--neon);
+  background-image: none;
 }
 
-.opcoes button.errou {
+.opcoes button.errou,
+.opcoes button.errou:hover {
   color: #ffffff;
   background-color: var(--erro);
+  background-image: none;
   border-color: var(--erro);
 }
 
