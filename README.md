@@ -27,4 +27,4 @@
 
 ## Acesso ao Jogo
 
-[Jogue a cruzadinha](https://SEU-USUARIO.github.io/arqcomp-cruzadinha/)
+[Jogue a cruzadinha](https://joseandersogomes.github.io/-arqcomp-cruzadinha/)
