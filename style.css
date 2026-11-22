@@ -127,32 +127,35 @@ header p {
   padding: 0 1.5rem;
 }
 
-.galeria-fotos figure {
+.foto-card {
   position: relative;
   height: 150px;
   margin: 0;
+  padding: 0;
   border: 1px solid rgba(57, 255, 20, 0.35);
   border-radius: 10px;
   background-size: cover;
   background-position: center;
   box-shadow: 0 8px 22px rgba(0, 0, 0, 0.45), inset 0 0 24px rgba(0, 0, 0, 0.55);
   overflow: hidden;
-  transition: transform 0.2s ease, border-color 0.2s ease;
+  transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
-.galeria-fotos figure::after {
+.foto-card::after {
   content: "";
   position: absolute;
   inset: 0;
   background: linear-gradient(180deg, transparent 35%, rgba(11, 15, 12, 0.9));
+  pointer-events: none;
 }
 
-.galeria-fotos figure:hover {
+.foto-card:hover {
   transform: translateY(-4px);
   border-color: var(--neon);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.55), 0 0 18px rgba(57, 255, 20, 0.35);
 }
 
-.galeria-fotos figcaption {
+.foto-card span {
   position: absolute;
   bottom: 0.6rem;
   left: 0.75rem;
@@ -163,24 +166,110 @@ header p {
   letter-spacing: 0.12em;
 }
 
-.galeria-fotos figure:nth-child(1) {
+.foto-card:nth-child(1) {
   background-image: url("assets/ben10-hero.jpg");
 }
 
-.galeria-fotos figure:nth-child(2) {
+.foto-card:nth-child(2) {
   background-image: url("assets/omnitrix-watch.jpg");
 }
 
-.galeria-fotos figure:nth-child(3) {
+.foto-card:nth-child(3) {
   background-image: url("assets/ben10-alien-swarm.jpg");
 }
 
-.galeria-fotos figure:nth-child(4) {
+.foto-card:nth-child(4) {
   background-image: url("assets/omnitrix-render.png");
 }
 
-.galeria-fotos figure:nth-child(5) {
+.foto-card:nth-child(5) {
   background-image: url("assets/ben10-personagem.jpg");
+}
+
+[hidden] {
+  display: none !important;
+}
+
+.lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  padding: 1.5rem;
+  background-color: rgba(5, 8, 6, 0.92);
+  backdrop-filter: blur(6px);
+}
+
+.lightbox-conteudo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  max-width: min(1000px, 100%);
+  margin: 0;
+}
+
+.lightbox-imagem,
+#lightbox-imagem {
+  display: block;
+  max-width: 100%;
+  max-height: 75vh;
+  border: 2px solid var(--neon);
+  border-radius: 10px;
+  box-shadow: 0 0 40px rgba(57, 255, 20, 0.35);
+  object-fit: contain;
+}
+
+.lightbox-conteudo figcaption,
+#lightbox-titulo {
+  color: var(--neon);
+  font-size: clamp(1rem, 3vw, 1.5rem);
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-shadow: 0 0 14px rgba(57, 255, 20, 0.5);
+}
+
+.lightbox-nav,
+.lightbox-fechar {
+  flex: 0 0 auto;
+  min-width: 48px;
+  padding: 0.75rem;
+  color: var(--fundo);
+  font-size: 1.4rem;
+  line-height: 1;
+}
+
+.lightbox-nav:hover,
+.lightbox-fechar:hover {
+  background-image: linear-gradient(180deg, #7dff63, #39ff14);
+}
+
+.lightbox-fechar {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  min-width: 44px;
+  font-size: 2rem;
+}
+
+@media (max-width: 600px) {
+  .lightbox {
+    gap: 0.4rem;
+    padding: 1rem 0.5rem;
+  }
+
+  .lightbox-nav {
+    min-width: 38px;
+    padding: 0.5rem;
+    font-size: 1.1rem;
+  }
+
+  #lightbox-imagem {
+    max-height: 65vh;
+  }
 }
 
 main {
@@ -586,7 +675,7 @@ button:focus-visible {
     padding: 1rem;
   }
 
-  .galeria-fotos figure {
+  .foto-card {
     height: 120px;
   }
 }

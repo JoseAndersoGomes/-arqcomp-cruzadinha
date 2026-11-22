@@ -609,11 +609,95 @@ function avancarAnagrama() {
   mostrarAnagrama();
 }
 
+let fotosGaleria = [];
+let indiceLightbox = 0;
+let elementoFocoAnterior = null;
+
+function atualizarLightbox() {
+  const foto = fotosGaleria[indiceLightbox];
+  const imagem = document.getElementById("lightbox-imagem");
+  imagem.src = foto.imagem;
+  imagem.alt = foto.titulo;
+  document.getElementById("lightbox-titulo").textContent = foto.titulo;
+}
+
+function abrirLightbox(indice) {
+  elementoFocoAnterior = document.activeElement;
+  indiceLightbox = indice;
+  atualizarLightbox();
+  document.getElementById("lightbox").hidden = false;
+  document.getElementById("lightbox-fechar").focus();
+}
+
+function fecharLightbox() {
+  document.getElementById("lightbox").hidden = true;
+  if (elementoFocoAnterior && typeof elementoFocoAnterior.focus === "function") {
+    elementoFocoAnterior.focus();
+  }
+}
+
+function navegarLightbox(passo) {
+  indiceLightbox =
+    (indiceLightbox + passo + fotosGaleria.length) % fotosGaleria.length;
+  atualizarLightbox();
+}
+
+function configurarGaleria() {
+  const cards = document.querySelectorAll(".foto-card");
+
+  fotosGaleria = Array.from(cards, (card) => ({
+    imagem: card.dataset.imagem,
+    titulo: card.dataset.titulo,
+  }));
+
+  if (!fotosGaleria.length) {
+    return;
+  }
+
+  cards.forEach((card, indice) => {
+    card.addEventListener("click", () => abrirLightbox(indice));
+  });
+
+  document
+    .getElementById("lightbox-fechar")
+    .addEventListener("click", fecharLightbox);
+  document
+    .getElementById("lightbox-anterior")
+    .addEventListener("click", () => navegarLightbox(-1));
+  document
+    .getElementById("lightbox-proxima")
+    .addEventListener("click", () => navegarLightbox(1));
+
+  document
+    .getElementById("lightbox")
+    .addEventListener("click", (event) => {
+      if (event.target.id === "lightbox") {
+        fecharLightbox();
+      }
+    });
+
+  document.addEventListener("keydown", (event) => {
+    const lightbox = document.getElementById("lightbox");
+    if (lightbox.hidden) {
+      return;
+    }
+
+    if (event.key === "Escape") {
+      fecharLightbox();
+    } else if (event.key === "ArrowLeft") {
+      navegarLightbox(-1);
+    } else if (event.key === "ArrowRight") {
+      navegarLightbox(1);
+    }
+  });
+}
+
 document.addEventListener("DOMContentLoaded", () => {
   renderizarTabuleiro();
   renderizarPistas();
   iniciarQuiz();
   iniciarAnagrama();
+  configurarGaleria();
 
   document.getElementById("btn-conferir").addEventListener("click", conferir);
   document.getElementById("btn-reiniciar").addEventListener("click", reiniciar);
