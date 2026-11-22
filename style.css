@@ -251,6 +251,110 @@ button:focus-visible {
   font-weight: 700;
 }
 
+.minigames {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1.5rem;
+  width: min(1200px, 100%);
+  margin: 0 auto;
+  padding: 0 1.5rem 1.5rem;
+}
+
+.minigame {
+  min-width: 0;
+  padding: 1.25rem;
+  background-color: var(--painel);
+  border: 1px solid rgba(57, 255, 20, 0.28);
+  border-radius: 10px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+}
+
+.minigame h2 {
+  margin: 0 0 0.75rem;
+  padding-bottom: 0.5rem;
+  color: var(--neon);
+  font-size: 1.1rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  border-bottom: 1px solid rgba(57, 255, 20, 0.4);
+}
+
+.minigame p {
+  margin: 0.5rem 0;
+}
+
+.enunciado {
+  font-weight: 600;
+}
+
+.opcoes {
+  display: grid;
+  gap: 0.5rem;
+  margin: 1rem 0;
+}
+
+.opcoes button {
+  color: var(--neon);
+  text-align: left;
+  text-transform: none;
+  letter-spacing: 0;
+  background-color: transparent;
+}
+
+.opcoes button.acertou {
+  color: #000000;
+  background-color: var(--neon);
+}
+
+.opcoes button.errou {
+  color: #ffffff;
+  background-color: var(--erro);
+  border-color: var(--erro);
+}
+
+.opcoes button:disabled {
+  cursor: default;
+  opacity: 1;
+}
+
+.letras {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin: 1rem 0;
+}
+
+.letras button {
+  min-width: 40px;
+  padding: 0.5rem;
+}
+
+.resposta {
+  min-height: 2.25rem;
+  margin: 0.5rem 0;
+  padding: 0.35rem 0.6rem;
+  color: var(--neon);
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  background-color: var(--fundo);
+  border: 1px dashed rgba(57, 255, 20, 0.5);
+  border-radius: 6px;
+}
+
+.feedback {
+  min-height: 1.5rem;
+  font-weight: 700;
+}
+
+.feedback.acertou,
+.placar {
+  color: var(--neon);
+}
+
+.feedback.errou {
+  color: var(--erro);
+}
+
 @media (max-width: 900px) {
   header {
     padding: 1.5rem 1rem 1.25rem;
@@ -260,6 +364,11 @@ button:focus-visible {
     grid-template-columns: 1fr;
     padding: 1rem;
   }
+
+  .minigames {
+    grid-template-columns: 1fr;
+    padding: 0 1rem 1rem;
+  }
 }
 
 @media (max-width: 600px) {
@@ -268,7 +377,8 @@ button:focus-visible {
   }
 
   .area-jogo,
-  .pistas {
+  .pistas,
+  .minigame {
     padding: 1rem;
   }
 }

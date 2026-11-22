@@ -118,6 +118,17 @@ const palavras = [
 let direcaoAtual = "horizontal";
 let ultimaCelulaClicada = null;
 
+function embaralhar(lista) {
+  const copia = [...lista];
+
+  for (let i = copia.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [copia[i], copia[j]] = [copia[j], copia[i]];
+  }
+
+  return copia;
+}
+
 function pertenceAPalavra(palavra, linha, coluna) {
   const passoLinha = palavra.direcao === "vertical" ? 1 : 0;
   const passoColuna = palavra.direcao === "horizontal" ? 1 : 0;
@@ -395,10 +406,219 @@ function reiniciar() {
   document.getElementById("mensagem-vitoria").textContent = "";
 }
 
+let quizOrdem = [];
+let quizIndice = 0;
+let quizAcertos = 0;
+let quizRespondida = false;
+
+function iniciarQuiz() {
+  quizOrdem = embaralhar(palavras.map((_, indice) => indice));
+  quizIndice = 0;
+  quizAcertos = 0;
+  mostrarPistaQuiz();
+}
+
+function mostrarPistaQuiz() {
+  quizRespondida = false;
+
+  const item = palavras[quizOrdem[quizIndice]];
+  const feedback = document.getElementById("quiz-feedback");
+
+  document.getElementById("quiz-pista").textContent = `${item.numero}. ${item.pista}`;
+  feedback.textContent = "";
+  feedback.className = "feedback";
+  document.getElementById("quiz-placar").textContent =
+    `${quizAcertos} de ${palavras.length} acertos`;
+
+  const opcoes = document.getElementById("quiz-opcoes");
+  opcoes.innerHTML = "";
+
+  const alternativas = embaralhar([
+    item,
+    ...embaralhar(palavras.filter((palavra) => palavra !== item)).slice(0, 3)
+  ]);
+
+  alternativas.forEach((alternativa) => {
+    const botao = document.createElement("button");
+    botao.type = "button";
+    botao.textContent = alternativa.palavra;
+    botao.addEventListener("click", () => responderQuiz(alternativa, botao));
+    opcoes.appendChild(botao);
+  });
+}
+
+function responderQuiz(alternativa, botao) {
+  if (quizRespondida) {
+    return;
+  }
+
+  quizRespondida = true;
+
+  const item = palavras[quizOrdem[quizIndice]];
+  const correto = alternativa === item;
+  const feedback = document.getElementById("quiz-feedback");
+
+  if (correto) {
+    quizAcertos++;
+  }
+
+  feedback.textContent = correto
+    ? "Correto! DNA estabilizado."
+    : `Errado. A resposta é ${item.palavra}.`;
+  feedback.className = `feedback ${correto ? "acertou" : "errou"}`;
+
+  document.querySelectorAll("#quiz-opcoes button").forEach((opcao) => {
+    opcao.disabled = true;
+
+    if (opcao.textContent === item.palavra) {
+      opcao.classList.add("acertou");
+    }
+  });
+
+  if (!correto) {
+    botao.classList.add("errou");
+  }
+
+  document.getElementById("quiz-placar").textContent =
+    `${quizAcertos} de ${palavras.length} acertos`;
+}
+
+function avancarQuiz() {
+  quizIndice++;
+
+  if (quizIndice >= quizOrdem.length) {
+    const acertos = quizAcertos;
+    iniciarQuiz();
+    document.getElementById("quiz-feedback").textContent =
+      `Rodada concluída: ${acertos} de ${palavras.length} acertos. Nova rodada iniciada.`;
+    return;
+  }
+
+  mostrarPistaQuiz();
+}
+
+let anagramaOrdem = [];
+let anagramaIndice = 0;
+let anagramaAcertos = 0;
+let anagramaRespondido = false;
+let letrasDisponiveis = [];
+let letrasEscolhidas = [];
+
+function iniciarAnagrama() {
+  anagramaOrdem = embaralhar(palavras.map((_, indice) => indice));
+  anagramaIndice = 0;
+  anagramaAcertos = 0;
+  mostrarAnagrama();
+}
+
+function mostrarAnagrama() {
+  anagramaRespondido = false;
+
+  const item = palavras[anagramaOrdem[anagramaIndice]];
+
+  letrasDisponiveis = embaralhar(item.palavra.split(""));
+  letrasEscolhidas = [];
+
+  document.getElementById("anagrama-pista").textContent =
+    `${item.numero}. ${item.pista}`;
+  document.getElementById("anagrama-placar").textContent =
+    `${anagramaAcertos} de ${palavras.length} montagens`;
+
+  const feedback = document.getElementById("anagrama-feedback");
+  feedback.textContent = "";
+  feedback.className = "feedback";
+
+  renderizarLetrasAnagrama();
+  atualizarRespostaAnagrama();
+}
+
+function renderizarLetrasAnagrama() {
+  const container = document.getElementById("anagrama-letras");
+  container.innerHTML = "";
+
+  letrasDisponiveis.forEach((letra, indice) => {
+    const botao = document.createElement("button");
+    botao.type = "button";
+    botao.textContent = letra;
+    botao.addEventListener("click", () => escolherLetraAnagrama(indice));
+    container.appendChild(botao);
+  });
+}
+
+function escolherLetraAnagrama(indice) {
+  if (anagramaRespondido) {
+    return;
+  }
+
+  letrasEscolhidas.push(letrasDisponiveis.splice(indice, 1)[0]);
+
+  renderizarLetrasAnagrama();
+  atualizarRespostaAnagrama();
+}
+
+function desfazerLetraAnagrama() {
+  if (anagramaRespondido || letrasEscolhidas.length === 0) {
+    return;
+  }
+
+  letrasDisponiveis.push(letrasEscolhidas.pop());
+
+  renderizarLetrasAnagrama();
+  atualizarRespostaAnagrama();
+}
+
+function atualizarRespostaAnagrama() {
+  document.getElementById("anagrama-resposta").textContent =
+    letrasEscolhidas.join("") || "—";
+}
+
+function conferirAnagrama() {
+  if (anagramaRespondido) {
+    return;
+  }
+
+  const item = palavras[anagramaOrdem[anagramaIndice]];
+  const correto = letrasEscolhidas.join("") === item.palavra;
+  const feedback = document.getElementById("anagrama-feedback");
+
+  if (correto) {
+    anagramaAcertos++;
+    anagramaRespondido = true;
+  }
+
+  feedback.textContent = correto
+    ? "Montagem correta! Sequência desbloqueada."
+    : `Ainda não. A palavra correta é ${item.palavra}.`;
+  feedback.className = `feedback ${correto ? "acertou" : "errou"}`;
+
+  document.getElementById("anagrama-placar").textContent =
+    `${anagramaAcertos} de ${palavras.length} montagens`;
+}
+
+function avancarAnagrama() {
+  anagramaIndice++;
+
+  if (anagramaIndice >= anagramaOrdem.length) {
+    const acertos = anagramaAcertos;
+    iniciarAnagrama();
+    document.getElementById("anagrama-feedback").textContent =
+      `Rodada concluída: ${acertos} de ${palavras.length} montagens. Nova rodada iniciada.`;
+    return;
+  }
+
+  mostrarAnagrama();
+}
+
 document.addEventListener("DOMContentLoaded", () => {
   renderizarTabuleiro();
   renderizarPistas();
+  iniciarQuiz();
+  iniciarAnagrama();
 
   document.getElementById("btn-conferir").addEventListener("click", conferir);
   document.getElementById("btn-reiniciar").addEventListener("click", reiniciar);
+  document.getElementById("btn-quiz-proxima").addEventListener("click", avancarQuiz);
+  document.getElementById("btn-anagrama-conferir").addEventListener("click", conferirAnagrama);
+  document.getElementById("btn-anagrama-desfazer").addEventListener("click", desfazerLetraAnagrama);
+  document.getElementById("btn-anagrama-nova").addEventListener("click", avancarAnagrama);
 });

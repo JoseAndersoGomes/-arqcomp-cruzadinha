@@ -38,6 +38,35 @@
     </aside>
   </main>
 
+  <section class="minigames" aria-label="Minigames de estudo">
+    <article class="minigame">
+      <h2>Diagnóstico de Pistas</h2>
+      <p>Leia a pista e escolha a palavra correta.</p>
+      <p id="quiz-pista" class="enunciado"></p>
+      <div id="quiz-opcoes" class="opcoes"></div>
+      <p id="quiz-feedback" class="feedback" aria-live="polite"></p>
+      <p id="quiz-placar" class="placar"></p>
+      <div class="acoes">
+        <button id="btn-quiz-proxima" type="button">Próxima pista</button>
+      </div>
+    </article>
+
+    <article class="minigame">
+      <h2>Montagem de DNA</h2>
+      <p>Monte a palavra clicando nas letras embaralhadas.</p>
+      <p id="anagrama-pista" class="enunciado"></p>
+      <div id="anagrama-letras" class="letras"></div>
+      <p id="anagrama-resposta" class="resposta"></p>
+      <p id="anagrama-feedback" class="feedback" aria-live="polite"></p>
+      <p id="anagrama-placar" class="placar"></p>
+      <div class="acoes">
+        <button id="btn-anagrama-conferir" type="button">Conferir</button>
+        <button id="btn-anagrama-desfazer" type="button">Apagar última</button>
+        <button id="btn-anagrama-nova" type="button">Nova palavra</button>
+      </div>
+    </article>
+  </section>
+
   <script src="script.js"></script>
 </body>
 </html>
