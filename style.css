@@ -44,7 +44,7 @@ header {
 
 header > * {
   position: relative;
-  z-index: 1;
+  z-index: 3;
 }
 
 header::before {
@@ -52,6 +52,7 @@ header::before {
   position: absolute;
   top: 50%;
   right: 8%;
+  z-index: 2;
   width: clamp(90px, 14vw, 170px);
   aspect-ratio: 1;
   transform: translateY(-50%);
@@ -65,9 +66,34 @@ header::before {
   animation: girar-omnitrix 24s linear infinite;
 }
 
+header::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background-image:
+    linear-gradient(180deg, rgba(11, 15, 12, 0.45), rgba(11, 15, 12, 0.9)),
+    url("assets/ben10-alien-swarm.jpg");
+  background-size: cover;
+  background-position: center;
+  opacity: 0;
+  animation: alterna-fundo 14s ease-in-out infinite alternate;
+  pointer-events: none;
+}
+
 @keyframes girar-omnitrix {
   to {
     transform: translateY(-50%) rotate(360deg);
+  }
+}
+
+@keyframes alterna-fundo {
+  0%, 35% {
+    opacity: 0;
+  }
+
+  65%, 100% {
+    opacity: 0.7;
   }
 }
 
@@ -90,6 +116,71 @@ header p {
   background-color: rgba(11, 15, 12, 0.65);
   border: 1px solid rgba(57, 255, 20, 0.45);
   border-radius: 999px;
+}
+
+.galeria-fotos {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 0.75rem;
+  width: min(1200px, 100%);
+  margin: 1.5rem auto 0;
+  padding: 0 1.5rem;
+}
+
+.galeria-fotos figure {
+  position: relative;
+  height: 150px;
+  margin: 0;
+  border: 1px solid rgba(57, 255, 20, 0.35);
+  border-radius: 10px;
+  background-size: cover;
+  background-position: center;
+  box-shadow: 0 8px 22px rgba(0, 0, 0, 0.45), inset 0 0 24px rgba(0, 0, 0, 0.55);
+  overflow: hidden;
+  transition: transform 0.2s ease, border-color 0.2s ease;
+}
+
+.galeria-fotos figure::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, transparent 35%, rgba(11, 15, 12, 0.9));
+}
+
+.galeria-fotos figure:hover {
+  transform: translateY(-4px);
+  border-color: var(--neon);
+}
+
+.galeria-fotos figcaption {
+  position: absolute;
+  bottom: 0.6rem;
+  left: 0.75rem;
+  z-index: 1;
+  color: var(--neon);
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+}
+
+.galeria-fotos figure:nth-child(1) {
+  background-image: url("assets/ben10-hero.jpg");
+}
+
+.galeria-fotos figure:nth-child(2) {
+  background-image: url("assets/omnitrix-watch.jpg");
+}
+
+.galeria-fotos figure:nth-child(3) {
+  background-image: url("assets/ben10-alien-swarm.jpg");
+}
+
+.galeria-fotos figure:nth-child(4) {
+  background-image: url("assets/omnitrix-render.png");
+}
+
+.galeria-fotos figure:nth-child(5) {
+  background-image: url("assets/ben10-personagem.jpg");
 }
 
 main {
@@ -274,6 +365,15 @@ button:focus-visible {
   border-radius: 6px;
 }
 
+#mensagem-vitoria:not(:empty) {
+  background-image:
+    linear-gradient(rgba(11, 15, 12, 0.72), rgba(11, 15, 12, 0.72)),
+    url("assets/omnitrix-render.png");
+  background-size: cover;
+  background-position: center;
+  text-shadow: 0 0 12px rgba(0, 0, 0, 0.9);
+}
+
 #mensagem-vitoria:empty {
   display: none;
 }
@@ -282,6 +382,11 @@ button:focus-visible {
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
+  background-image:
+    linear-gradient(rgba(26, 34, 28, 0.93), rgba(26, 34, 28, 0.93)),
+    url("assets/omnitrix-painel.jpg");
+  background-size: cover;
+  background-position: center;
 }
 
 .pistas h2 {
@@ -454,6 +559,11 @@ button:focus-visible {
     display: none;
   }
 
+  .galeria-fotos {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    padding: 0 1rem;
+  }
+
   main {
     grid-template-columns: 1fr;
     padding: 1rem;
@@ -474,5 +584,9 @@ button:focus-visible {
   .pistas,
   .minigame {
     padding: 1rem;
+  }
+
+  .galeria-fotos figure {
+    height: 120px;
   }
 }
