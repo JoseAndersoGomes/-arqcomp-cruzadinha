@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Omnitrix OS - Cruzadinha de Arquitetura</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header>
+    <h1>Omnitrix OS - Cruzadinha de Arquitetura</h1>
+    <p>Diagnóstico do sistema: núcleo ativo e DNA alienígena estável.</p>
+  </header>
+
+  <main>
+    <section class="area-jogo">
+      <div id="tabuleiro"></div>
+      <div id="contador">0 de 12 palavras</div>
+
+      <div class="acoes">
+        <button id="btn-conferir" type="button">Conferir</button>
+        <button id="btn-reiniciar" type="button">Reiniciar</button>
+      </div>
+
+      <div id="mensagem-vitoria"></div>
+    </section>
+
+    <aside class="pistas">
+      <section>
+        <h2>Horizontais</h2>
+        <ol id="lista-horizontais"></ol>
+      </section>
+
+      <section>
+        <h2>Verticais</h2>
+        <ol id="lista-verticais"></ol>
+      </section>
+    </aside>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
