@@ -1,0 +1,274 @@
+:root {
+  --fundo: #0b0f0c;
+  --painel: #1a221c;
+  --neon: #39ff14;
+  --texto: #f0f0f0;
+  --erro: #ff3b3b;
+  --tamanho-celula: 36px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background-color: var(--fundo);
+  background-image: radial-gradient(circle at 50% 0%, rgba(57, 255, 20, 0.08), transparent 45%);
+  color: var(--texto);
+  font-family: "Segoe UI", Arial, sans-serif;
+  line-height: 1.5;
+}
+
+header {
+  padding: 2rem 1.5rem 1.5rem;
+  text-align: center;
+  border-bottom: 2px solid var(--neon);
+  background: linear-gradient(180deg, rgba(57, 255, 20, 0.08), transparent);
+}
+
+header h1 {
+  margin: 0;
+  color: var(--neon);
+  font-size: clamp(1.5rem, 4vw, 2.4rem);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  text-shadow: 0 0 18px rgba(57, 255, 20, 0.35);
+}
+
+header p {
+  margin: 0.5rem 0 0;
+  color: var(--texto);
+  opacity: 0.8;
+}
+
+main {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(280px, 380px);
+  gap: 1.5rem;
+  width: min(1200px, 100%);
+  margin: 0 auto;
+  padding: 1.5rem;
+  align-items: start;
+}
+
+.area-jogo,
+.pistas {
+  min-width: 0;
+  padding: 1.25rem;
+  background-color: var(--painel);
+  border: 1px solid rgba(57, 255, 20, 0.28);
+  border-radius: 10px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+}
+
+#tabuleiro {
+  display: grid;
+  grid-template-columns: repeat(var(--colunas, 18), var(--tamanho-celula, 36px));
+  grid-auto-rows: var(--tamanho-celula, 36px);
+  gap: 2px;
+  justify-content: start;
+  align-content: start;
+  width: 100%;
+  padding: 4px;
+  overflow-x: auto;
+  background-color: var(--fundo);
+  border: 1px solid rgba(57, 255, 20, 0.25);
+  border-radius: 6px;
+}
+
+.vazia {
+  width: var(--tamanho-celula, 36px);
+  height: var(--tamanho-celula, 36px);
+  background-color: var(--fundo);
+  border: none;
+  pointer-events: none;
+  user-select: none;
+}
+
+.celula {
+  position: relative;
+  width: var(--tamanho-celula, 36px);
+  height: var(--tamanho-celula, 36px);
+  background-color: #ffffff;
+  border: 1px solid var(--neon);
+  border-radius: 4px;
+  transition: box-shadow 0.15s ease;
+}
+
+.celula:focus-within {
+  box-shadow: 0 0 0 2px rgba(57, 255, 20, 0.35), 0 0 12px rgba(57, 255, 20, 0.45);
+}
+
+.celula input {
+  display: block;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  border: none;
+  border-radius: inherit;
+  appearance: none;
+  background-color: transparent;
+  box-shadow: none;
+  color: #000000;
+  font-family: inherit;
+  font-size: 1.1rem;
+  font-weight: 700;
+  line-height: 1;
+  text-align: center;
+  text-transform: uppercase;
+  outline: none;
+  caret-color: var(--fundo);
+}
+
+.numero-dica {
+  position: absolute;
+  top: 1px;
+  left: 2px;
+  color: #000000;
+  font-size: 10px;
+  font-weight: 700;
+  line-height: 1;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.certa,
+.certa input,
+.celula input.certa {
+  background-color: var(--neon);
+  color: #000000;
+}
+
+.errada,
+.errada input,
+.celula input.errada {
+  background-color: var(--erro);
+  color: #ffffff;
+}
+
+#contador {
+  display: inline-block;
+  margin: 1rem 0 0;
+  padding: 0.35rem 0.8rem;
+  color: var(--neon);
+  font-weight: 700;
+  background-color: rgba(57, 255, 20, 0.08);
+  border: 1px solid rgba(57, 255, 20, 0.45);
+  border-radius: 999px;
+}
+
+.acoes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin: 1rem 0;
+}
+
+button {
+  padding: 0.7rem 1.2rem;
+  color: var(--fundo);
+  font-family: inherit;
+  font-size: 0.95rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  background-color: var(--neon);
+  border: 1px solid var(--neon);
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.15s ease, box-shadow 0.15s ease, transform 0.1s ease;
+}
+
+button:hover {
+  background-color: #5cff3d;
+  box-shadow: 0 0 14px rgba(57, 255, 20, 0.4);
+}
+
+button:active {
+  transform: translateY(1px);
+}
+
+button:focus-visible {
+  outline: 2px solid var(--texto);
+  outline-offset: 2px;
+}
+
+#btn-reiniciar {
+  color: var(--neon);
+  background-color: transparent;
+}
+
+#btn-reiniciar:hover {
+  background-color: rgba(57, 255, 20, 0.12);
+}
+
+#mensagem-vitoria {
+  margin-top: 1rem;
+  padding: 1rem;
+  color: var(--neon);
+  font-weight: 700;
+  text-align: center;
+  background-color: rgba(57, 255, 20, 0.08);
+  border: 1px solid var(--neon);
+  border-radius: 6px;
+}
+
+#mensagem-vitoria:empty {
+  display: none;
+}
+
+.pistas {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.pistas h2 {
+  margin: 0 0 0.75rem;
+  padding-bottom: 0.5rem;
+  color: var(--neon);
+  font-size: 1.1rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  border-bottom: 1px solid rgba(57, 255, 20, 0.4);
+}
+
+.pistas ol {
+  margin: 0;
+  padding-left: 1.5rem;
+}
+
+.pistas li {
+  margin-bottom: 0.75rem;
+  line-height: 1.45;
+}
+
+.pistas li::marker {
+  color: var(--neon);
+  font-weight: 700;
+}
+
+@media (max-width: 900px) {
+  header {
+    padding: 1.5rem 1rem 1.25rem;
+  }
+
+  main {
+    grid-template-columns: 1fr;
+    padding: 1rem;
+  }
+}
+
+@media (max-width: 600px) {
+  #tabuleiro {
+    --tamanho-celula: 32px;
+  }
+
+  .area-jogo,
+  .pistas {
+    padding: 1rem;
+  }
+}
