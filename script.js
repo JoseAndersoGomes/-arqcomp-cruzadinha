@@ -116,6 +116,7 @@ const palavras = [
 ];
 
 let direcaoAtual = "horizontal";
+let ultimaCelulaClicada = null;
 
 function pertenceAPalavra(palavra, linha, coluna) {
   const passoLinha = palavra.direcao === "vertical" ? 1 : 0;
@@ -200,6 +201,7 @@ function moverFoco(input, passo) {
   const proximoInput = obterInput(novaLinha, novaColuna);
 
   if (proximoInput) {
+    ultimaCelulaClicada = null;
     proximoInput.focus();
   }
 }
@@ -212,6 +214,16 @@ function configurarCelula(input) {
 
   input.addEventListener("click", () => {
     input.select();
+
+    const linha = Number(input.dataset.linha);
+    const coluna = Number(input.dataset.coluna);
+    const direcoes = direcoesDaCelula(linha, coluna);
+
+    if (direcoes.length === 2 && ultimaCelulaClicada === input) {
+      direcaoAtual = direcaoAtual === "horizontal" ? "vertical" : "horizontal";
+    }
+
+    ultimaCelulaClicada = input;
   });
 
   input.addEventListener("input", () => {
@@ -238,6 +250,8 @@ function configurarCelula(input) {
 function renderizarTabuleiro() {
   const tabuleiroElemento = document.getElementById("tabuleiro");
   const numerosPorCelula = new Map();
+
+  ultimaCelulaClicada = null;
 
   palavras.forEach((item) => {
     const chave = `${item.linhaInicial},${item.colunaInicial}`;
